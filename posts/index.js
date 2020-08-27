@@ -1,21 +1,23 @@
 import express from "express"
 import bodyParser from 'body-parser'
-import {ramdomBytes} from 'crypto'
+import {randomBytes} from 'crypto'
 import cors from 'cors'
 
 
 const app = express()
 app.use(bodyParser.json())
-//in memory database for testing.
-const post = {};
+
+
+//in-memory database for testing.
+const posts = {};
 
 
 app.get('/posts',(req,res)=>{
-     res.send(post)
+     res.send(posts)
 })
 
 app.post('/posts',(req,res)=>{
-    const id = ramdomBytes(4).toString('hex')
+    const id = randomBytes(4).toString('hex')
     const {
         title
     } = req.body
