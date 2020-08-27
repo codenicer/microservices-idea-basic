@@ -6,6 +6,7 @@ import cors from 'cors'
 
 const app = express()
 app.use(bodyParser.json())
+app.use(cors())
 
 
 //in-memory database for testing.
