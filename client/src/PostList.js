@@ -7,7 +7,7 @@ export default () =>{
    const [posts,setPosts] = useState({})
 
    const fetchPost = async () =>{
-       const res = await axios.get('http://localhost:5000/posts')
+       const res = await axios.get('http://localhost:5003/posts')
 
        setPosts(res.data)
    }
