@@ -52,6 +52,6 @@ app.post('/events', (req, res) => {
 const PORT = process.env.PORT || 5000
 
 app.listen(PORT , ()=>{
-   console.log(`Listening to port ${PORT}`)
+   console.log(`Post service started.\nListening to port ${PORT}`)
 })
 

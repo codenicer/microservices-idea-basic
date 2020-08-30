@@ -8,13 +8,7 @@ app.use(cors());
 
 const posts = {};
 
-app.get('/posts', (req, res) => {
-  res.send(posts);
-});
-
-app.post('/events', (req, res) => {
-  const { type, data } = req.body;
-
+const handelEvents = (type,data) =>{
   if (type === 'PostCreated') {
     const { id, title } = data;
 
@@ -28,6 +22,31 @@ app.post('/events', (req, res) => {
     post.comments.push({ id, content });
   }
 
+  if (type === 'CommentUpdated'){
+    const {id,contet,postId,status} = data
+
+    const post = posts[postId] 
+    const comment = post.comments.find(comment =>{
+      return comment.id =  id
+    })
+
+    comment.status = status
+    comment.content = content
+
+  }
+
+}
+
+
+app.get('/posts', (req, res) => {
+  res.send(posts);
+});
+
+app.post('/events', (req, res) => {
+  const { type, data } = req.body;
+
+  handelEvents(type,data);
+
   console.log(posts);
 
   res.send({});
@@ -36,7 +55,16 @@ app.post('/events', (req, res) => {
 
 const PORT = process.env.PORT || 5003
 
-app.listen(PORT , ()=>{
-   console.log(`Listening to port ${PORT}`)
+app.listen(PORT ,async ()=>{
+   console.log(`Query service started.\nListening to port ${PORT}`)
+
+  const res =  await axios.get('http://localhosts:5002/events');
+  
+  for(let event of res.data){
+    console.log('Processing event:',event.type)
+
+    handelEvents(event.type,event.data)
+  }
+
 })
 
