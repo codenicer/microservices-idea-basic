@@ -2,29 +2,31 @@ import React from 'react'
 
 
 export default ({comments})=>{
-    let content ;
+   
+    
+    const renderedComments = comments.map(comment=>{
+        let content ;
+        console.log(comment.status)
 
-    comments.map(comment=>{
-      
         if(comment.status === "approved"){
             content = comment.content;
         }
         if(comment.status === "pending"){
             content = 'This comment is awaiting moderation'
         }
-        if(comment.status === "approved"){
+        if(comment.status === "rejected"){
             content = 'this comment has been rejected'
         }
 
         return <li key={comment.id}>
-            {comment.content}
+            {content}
         </li>
     })
     
-    
+   
     return(
         <ul>
-            {content}
+            {renderedComments}
         </ul>
     )
 }
